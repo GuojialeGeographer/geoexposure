@@ -68,6 +68,46 @@ See [`examples/basic_workflow.py`](examples/basic_workflow.py) for the full chai
 **Terminology:** a grid cell carries a *concentration* (`idw_value`); only the
 population-aggregated scalar is called an *exposure*.
 
+## Input requirements and output schema
+
+These are validated at runtime (a clear `ValueError` / `AssertionError` is raised
+on violation, so callers get an explicit error instead of a wrong number):
+
+**Inputs**
+
+| Argument | Type | Requirements |
+|---|---|---|
+| `boundary_gdf` | GeoDataFrame | one (multi)polygon; **projected CRS** (e.g. EPSG:32632) |
+| `points_gdf` | GeoDataFrame | point geometries; numeric `value_col`; **same CRS as the grid** |
+| `grid_gdf` | GeoDataFrame | polygon cells with `grid_id` (from a grid builder) |
+| `cell_size` | float (> 0) | square: edge length (m); hexagon: circumradius (m) |
+| `exposure_col` / `population_col` | str | column must exist; population ≥ 0 with total > 0 |
+
+**Outputs**
+
+| Function | Returns |
+|---|---|
+| `create_regular_grid` / `create_hexagonal_grid` | GeoDataFrame + `grid_id`, same CRS |
+| `idw_interpolation` | the grid plus a new `idw_value` column |
+| `population_weighted_exposure` / `area_weighted_mean` / `exposure_bias` | `float` |
+| `exposure_inequality_summary` | `dict`: `high_exposure_mean`, `low_exposure_mean`, `ratio`, `pop_share_high` |
+
+All spatial inputs and outputs stay in the **same projected CRS**.
+
+## Methodological note: the MAUP
+
+Any grid-based exposure metric depends on the chosen analysis unit — the
+**Modifiable Areal Unit Problem (MAUP)**, which has two parts:
+
+- **scale effect** — the cell size (`cell_size`);
+- **zonation effect** — the cell shape/placement (square vs hexagonal).
+
+`geoexposure` lets you vary both, so you can check that a result is not an
+artefact of the discretisation. On the bundled Milan data the
+population-weighted exposure, bias and inequality ratio are **stable across
+resolutions (250–1000 m) and across square vs hexagonal grids** (see the
+notebook). Reporting this sensitivity is recommended whenever you use the library.
+
 ## Data
 
 The `data/` folder ships three GeoJSON files in EPSG:32632, all using real
