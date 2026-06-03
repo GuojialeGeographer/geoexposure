@@ -11,7 +11,7 @@ All spatial data uses **EPSG:32632** (UTM zone 32N), with Milan air-quality
 
 ## Installation
 
-Developed and tested on **Python 3.11**; supports Python ≥ 3.10.
+Developed and tested on **Python 3.11**; supports Python ≥ 3.11.
 
 ```bash
 git clone https://github.com/GuojialeGeographer/geoexposure.git

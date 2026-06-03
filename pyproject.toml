@@ -7,7 +7,7 @@ name = "geoexposure"
 version = "0.1.0"
 description = "Point-to-population environmental exposure toolkit for geospatial processing"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [
     { name = "Jiale Guo", email = "jiale.guo@mail.polimi.it" },
