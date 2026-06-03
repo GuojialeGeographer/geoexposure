@@ -24,6 +24,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest>=7.0"]
+notebook = ["jupyter"]
 
 [tool.setuptools.packages.find]
 include = ["geoexposure*"]

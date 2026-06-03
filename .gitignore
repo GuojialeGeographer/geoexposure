@@ -21,6 +21,9 @@ env/
 .vscode/
 .idea/
 
+# Jupyter
+.ipynb_checkpoints/
+
 # Data trove (kept locally; the library ships only the 3 GeoJSON in data/)
 data/authoritative_sources/
 data/optional_context/

@@ -98,6 +98,11 @@ Running `python examples/basic_workflow.py` writes three kinds of output to
 
 ![NO2 IDW surface](outputs/map_no2_idw.png)
 
+A narrated walkthrough with inline maps and a square-vs-hexagonal grid
+comparison is in [`notebooks/geoexposure_demo.ipynb`](notebooks/geoexposure_demo.ipynb)
+(renders on GitHub; to re-run it: `pip install -e ".[notebook]"` then
+`jupyter lab`).
+
 ## Testing
 
 ```bash
