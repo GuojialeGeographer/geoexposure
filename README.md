@@ -56,12 +56,14 @@ See [`examples/basic_workflow.py`](examples/basic_workflow.py) for the full chai
 | Module | Function | Purpose |
 |---|---|---|
 | `grid` | `create_regular_grid` | square grid over a boundary |
+| `grid` | `create_hexagonal_grid` | isotropic hexagonal grid alternative |
 | `interpolation` | `idw_interpolation` | IDW from points to grid (`idw_value`) |
 | `exposure` | `population_weighted_exposure` | PWE scalar |
 | `exposure` | `area_weighted_mean` | plain area mean |
 | `exposure` | `exposure_bias` | % bias PWE vs. mean |
 | `equity` | `exposure_inequality_summary` | high/low exposure groups |
 | `io` | `load_sample_data` | bundled Milan datasets |
+| `plotting` | `plot_choropleth` | choropleth map (+ optional point overlay) |
 
 **Terminology:** a grid cell carries a *concentration* (`idw_value`); only the
 population-aggregated scalar is called an *exposure*.
@@ -82,6 +84,19 @@ boundary, ARPA Lombardia NO₂ monitoring stations (annual means), and the ISTAT
 2021 census population on a 500 m grid. See [`data/README.md`](data/README.md)
 for full provenance. To use different data, replace the three files keeping the
 same filenames, key columns and CRS.
+
+## Outputs
+
+Running `python examples/basic_workflow.py` writes three kinds of output to
+`outputs/`:
+
+- **data:** `grid_no2_exposure.geojson` — the analysis grid enriched with
+  `idw_value` and `population`
+- **table:** `summary.csv` — PWE, area mean, exposure bias and the equity summary
+- **charts:** `map_no2_idw.png` (NO₂ IDW surface + stations) and
+  `map_exposure_groups.png` (low / mid / high exposure cells)
+
+![NO2 IDW surface](outputs/map_no2_idw.png)
 
 ## Testing
 

@@ -1,0 +1,10 @@
+metric,value
+grid_cells,6689.0
+population_total,3214615.58
+population_weighted_exposure,32.01
+area_weighted_mean,29.49
+exposure_bias_pct,8.53
+high_exposure_mean,34.01
+low_exposure_mean,23.93
+inequality_ratio,1.42
+pop_share_high,0.6
