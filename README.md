@@ -11,13 +11,25 @@ All spatial data uses **EPSG:32632** (UTM zone 32N), with Milan air-quality
 
 ## Installation
 
+Developed and tested on **Python 3.11**; supports Python ≥ 3.10.
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e .
+git clone https://github.com/GuojialeGeographer/geoexposure.git
+cd geoexposure
+
+# Create an environment (use whichever tool you have):
+python -m venv .venv && source .venv/bin/activate
+#   Windows:  python -m venv .venv && .venv\Scripts\activate
+#   or conda: conda create -n geoexposure python=3.11 -y && conda activate geoexposure
+
+pip install -e ".[test]"            # runtime + test dependencies, one command
+
+pytest                              # verify the install
+python examples/basic_workflow.py   # run the end-to-end example
 ```
 
-Dependencies: geopandas, shapely ≥ 2.0, numpy, pandas, pyproj. Python ≥ 3.10.
+Pinned dependencies (also listed in `requirements.txt`): geopandas 1.1.3,
+shapely 2.1.2, pyproj 3.7.2, numpy ≥ 1.26, pandas ≥ 2.0.
 
 ## Usage
 
