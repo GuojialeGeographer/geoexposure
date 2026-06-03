@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """Loading of the bundled Milan sample data.
 
-The files under ``data/`` use real Milan coordinates (EPSG:32632). The NO2 and
-population *values* are illustrative samples — replace the three GeoJSON files
-with your own exported data (same filenames, same columns, same CRS) to run the
-analysis on real measurements.
+The files under ``data/`` are real Milan data in EPSG:32632: an ISTAT
+administrative boundary, ARPA Lombardia NO2 monitoring stations, and the ISTAT
+2021 census population on a 500 m grid (see ``data/README.md`` for provenance).
+Replace the three GeoJSON files (same filenames, columns and CRS) to run the
+analysis on different data.
 """
 
 from pathlib import Path

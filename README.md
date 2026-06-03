@@ -77,10 +77,11 @@ Milan coordinates:
 | `stations.geojson` | NO₂ monitoring stations | `no2` |
 | `population_grid.geojson` | 1 km population cells | `population` |
 
-> **Note:** the NO₂ and population *values* in the bundled files are
-> illustrative samples. To run the analysis on real measurements, replace the
-> three files with your own exports — keep the same filenames, key columns and
-> CRS (EPSG:32632) and everything else works unchanged.
+The three files are **real Milan data** (EPSG:32632): an ISTAT administrative
+boundary, ARPA Lombardia NO₂ monitoring stations (annual means), and the ISTAT
+2021 census population on a 500 m grid. See [`data/README.md`](data/README.md)
+for full provenance. To use different data, replace the three files keeping the
+same filenames, key columns and CRS.
 
 ## Testing
 

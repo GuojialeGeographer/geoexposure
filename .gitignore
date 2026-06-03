@@ -20,3 +20,11 @@ env/
 # IDE
 .vscode/
 .idea/
+
+# Data trove (kept locally; the library ships only the 3 GeoJSON in data/)
+data/authoritative_sources/
+data/optional_context/
+data/project_ready_geoexposure/
+*.gpkg
+*.tif
+*.tiff
