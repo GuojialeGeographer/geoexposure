@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geoexposure"
+version = "0.1.0"
+description = "Point-to-population environmental exposure toolkit for geospatial processing"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Jiale Guo", email = "jiale.guo@mail.polimi.it" },
+]
+keywords = ["geospatial", "exposure", "idw", "interpolation", "environmental"]
+dependencies = [
+    "geopandas>=0.14",
+    "shapely>=2.0",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyproj>=3.4",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+include = ["geoexposure*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
