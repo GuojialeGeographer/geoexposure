@@ -7,21 +7,26 @@ aggregated with population does the scalar become an *exposure*.
 
 
 def population_weighted_exposure(grid_gdf, exposure_col, population_col):
-    """人口加权暴露 (PWE) —— "平均一个人暴露在多高的污染下"。
+    """Population-weighted exposure (PWE) -- "what the average person breathes".
 
-        PWE = Σ(cᵢ · pᵢ) / Σ(pᵢ)
+        PWE = sum(c_i * p_i) / sum(p_i)
 
-    每个格子的浓度 cᵢ 按它的人口 pᵢ 加权：人多的地方权重大。
+    Each cell concentration c_i is weighted by its population p_i, so more
+    populated cells count more.
 
     Parameters
     ----------
-    grid_gdf : GeoDataFrame   含浓度列与人口列的网格
-    exposure_col : str        浓度列名（如 'idw_value'）
-    population_col : str       人口列名（如 'population'）
+    grid_gdf : GeoDataFrame
+        Grid carrying both the concentration and population columns.
+    exposure_col : str
+        Concentration column (e.g. 'idw_value').
+    population_col : str
+        Population column (e.g. 'population').
 
     Returns
     -------
-    float  人口加权平均浓度
+    float
+        Population-weighted mean concentration.
     """
     assert exposure_col in grid_gdf.columns, f"'{exposure_col}' not in grid"
     assert population_col in grid_gdf.columns, f"'{population_col}' not in grid"
@@ -33,20 +38,24 @@ def population_weighted_exposure(grid_gdf, exposure_col, population_col):
 
 
 def area_weighted_mean(grid_gdf, exposure_col):
-    """空间(面积加权)均值 —— "平均一个格子里污染多高"。
+    """Spatial (area-weighted) mean -- "how polluted the average cell is".
 
-        AM = Σ(cᵢ · aᵢ) / Σ(aᵢ)        aᵢ = 格子面积 geometry.area
+        AM = sum(c_i * a_i) / sum(a_i)        a_i = cell area (geometry.area)
 
-    把空旷格子和人口密集格子一视同仁。整格等面积时退化成算术平均。
+    Treats empty and densely populated cells alike. With equal-area cells it
+    reduces to the arithmetic mean.
 
     Parameters
     ----------
-    grid_gdf : GeoDataFrame   含浓度列的网格
-    exposure_col : str        浓度列名
+    grid_gdf : GeoDataFrame
+        Grid carrying the concentration column.
+    exposure_col : str
+        Concentration column.
 
     Returns
     -------
-    float  面积加权平均浓度
+    float
+        Area-weighted mean concentration.
     """
     assert exposure_col in grid_gdf.columns, f"'{exposure_col}' not in grid"
     area = grid_gdf.geometry.area
@@ -56,21 +65,26 @@ def area_weighted_mean(grid_gdf, exposure_col):
 
 
 def exposure_bias(pwe, mean_value):
-    """人口加权 vs 空间均值的百分比偏倚。
+    """Percentage bias of population-weighted vs. spatial mean.
 
-        bias% = (pwe − mean_value) / mean_value × 100
+        bias% = (pwe - mean_value) / mean_value * 100
 
-    污染与人口正相关时 pwe > 空间均值，bias 为正：单看污染地图的均值
-    会"低估"真实的人群暴露。这就是做人口加权的理由与政策含义。
+    When pollution and population are positively correlated, pwe > spatial mean
+    and the bias is positive: a plain pollution-map average *underestimates*
+    real human exposure. This is the rationale (and policy meaning) of
+    population weighting.
 
     Parameters
     ----------
-    pwe : float          人口加权暴露
-    mean_value : float   空间(面积加权)均值
+    pwe : float
+        Population-weighted exposure.
+    mean_value : float
+        Spatial (area-weighted) mean.
 
     Returns
     -------
-    float  百分比偏倚
+    float
+        Percentage bias.
     """
     assert mean_value != 0, "mean_value must be non-zero (avoid divide-by-zero)"
     return float((pwe - mean_value) / mean_value * 100.0)

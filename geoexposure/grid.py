@@ -35,17 +35,21 @@ def create_regular_grid(boundary_gdf, cell_size, clip=True):
 
     Parameters
     ----------
-    boundary_gdf : GeoDataFrame  研究区边界，必须是投影坐标系
-    cell_size : float            网格边长（CRS 单位，UTM 下即米）
-    clip : bool                  True 时只保留与边界相交的网格（整格保留，不切割）
+    boundary_gdf : GeoDataFrame
+        Study-area boundary; must be in a projected CRS.
+    cell_size : float
+        Cell edge length, in CRS units (metres for UTM).
+    clip : bool
+        If True, keep only whole cells intersecting the boundary (no cutting).
 
     Returns
     -------
-    GeoDataFrame  含 'grid_id' 列，CRS 与输入一致
+    GeoDataFrame
+        Grid cells with a ``grid_id`` column, in the input CRS.
     """
     _validate_projected_boundary(boundary_gdf, cell_size)
 
-    # 在边界外接矩形上铺设 fishnet
+    # Lay a fishnet over the boundary's bounding box.
     minx, miny, maxx, maxy = boundary_gdf.total_bounds
     cells, x = [], minx
     while x < maxx:
@@ -70,20 +74,24 @@ def create_hexagonal_grid(boundary_gdf, cell_size, clip=True):
 
     Parameters
     ----------
-    boundary_gdf : GeoDataFrame  研究区边界，必须是投影坐标系
-    cell_size : float            六边形外接圆半径 R（中心到顶点，CRS 单位/米）
-    clip : bool                  True 时只保留与边界相交的整个六边形
+    boundary_gdf : GeoDataFrame
+        Study-area boundary; must be in a projected CRS.
+    cell_size : float
+        Hexagon circumradius R (centre-to-vertex), in CRS units (metres).
+    clip : bool
+        If True, keep only whole hexagons intersecting the boundary.
 
     Returns
     -------
-    GeoDataFrame  含 'grid_id' 列，CRS 与输入一致
+    GeoDataFrame
+        Grid cells with a ``grid_id`` column, in the input CRS.
     """
     _validate_projected_boundary(boundary_gdf, cell_size)
 
-    r = cell_size                      # 外接圆半径（中心 -> 顶点）
-    dx = math.sqrt(3) * r              # 同一行相邻中心的水平间距 (= 对边宽)
-    dy = 1.5 * r                       # 相邻行的垂直间距
-    # pointy-top 六边形顶点：从 30° 起每隔 60° 一个顶点
+    r = cell_size                      # circumradius (centre -> vertex)
+    dx = math.sqrt(3) * r              # horizontal spacing of centres in a row (= flat-to-flat width)
+    dy = 1.5 * r                       # vertical spacing between rows
+    # pointy-top hexagon vertices: one vertex every 60 degrees, starting at 30
     offsets = [(r * math.cos(math.radians(30 + 60 * k)),
                 r * math.sin(math.radians(30 + 60 * k))) for k in range(6)]
 
@@ -92,7 +100,7 @@ def create_hexagonal_grid(boundary_gdf, cell_size, clip=True):
     row = 0
     y = miny - r
     while y <= maxy + r:
-        x_shift = dx / 2 if (row % 2) else 0.0      # 奇数行右移半格，互相嵌合
+        x_shift = dx / 2 if (row % 2) else 0.0      # offset odd rows by half a step so cells interlock
         x = minx - r + x_shift
         while x <= maxx + r:
             cells.append(Polygon([(x + ox, y + oy) for ox, oy in offsets]))
