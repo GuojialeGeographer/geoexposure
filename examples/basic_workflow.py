@@ -23,7 +23,9 @@ def main():
     boundary, stations, pop = data["boundary"], data["stations"], data["population_grid"]
 
     # 2) Build a regular analysis grid over the study area.
-    grid = create_regular_grid(boundary, cell_size=1000)
+    #    500 m matches the census population grid, so each analysis cell maps
+    #    cleanly to one population cell (full population coverage, no undercount).
+    grid = create_regular_grid(boundary, cell_size=500)
 
     # 3) Interpolate the station NO2 values onto the grid centroids (IDW).
     grid = idw_interpolation(stations, grid, value_col="no2", power=2)
