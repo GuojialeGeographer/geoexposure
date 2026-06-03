@@ -9,6 +9,15 @@ It implements one complete geospatial processing chain:
 All spatial data uses **EPSG:32632** (UTM zone 32N), with Milan air-quality
 (NO₂) data as the worked example.
 
+## Background
+
+This project was inspired by a master's thesis on **air pollution downscaling**.
+During that work, it became clear that population-scale environmental exposure
+is a genuinely interesting research topic — how pollutants distribute across
+population groups, whether certain communities bear disproportionate burdens,
+and how spatial scale shapes the answers. `geoexposure` distills some of those
+analysis steps into a reusable, transparent Python package.
+
 ## Installation
 
 Developed and tested on **Python 3.11**; supports Python ≥ 3.11.
