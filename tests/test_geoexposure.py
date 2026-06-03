@@ -11,7 +11,7 @@ import pytest
 from shapely.geometry import box, Point
 
 import geoexposure as gx
-from geoexposure.grid import create_regular_grid
+from geoexposure.grid import create_regular_grid, create_hexagonal_grid
 from geoexposure.interpolation import idw_interpolation
 from geoexposure.exposure import (
     population_weighted_exposure, area_weighted_mean, exposure_bias,
@@ -57,6 +57,38 @@ def test_grid_rejects_nonpositive_cell_size():
     b = gpd.GeoDataFrame(geometry=[box(0, 0, 1000, 1000)], crs=CRS)
     with pytest.raises(ValueError):
         create_regular_grid(b, 0)
+
+
+# ---- hexagonal grid ----
+def test_hex_grid_geometry_and_equal_area():
+    b = gpd.GeoDataFrame(geometry=[box(512000, 5032000, 516000, 5036000)], crs=CRS)
+    hexg = create_hexagonal_grid(b, cell_size=300)
+    assert len(hexg) > 0
+    assert hexg.crs == b.crs
+    assert hexg["grid_id"].tolist() == list(range(len(hexg)))
+    # every cell is a 6-sided polygon
+    assert (len(hexg.geometry.iloc[0].exterior.coords) - 1) == 6
+    # untrimmed hexagons all have the same area
+    assert hexg.geometry.area.round(3).nunique() == 1
+
+
+def test_hex_grid_rejects_geographic_crs():
+    b = gpd.GeoDataFrame(geometry=[box(512000, 5032000, 516000, 5036000)], crs=CRS).to_crs(4326)
+    with pytest.raises(ValueError):
+        create_hexagonal_grid(b, 0.005)
+
+
+def test_idw_runs_on_hex_grid_and_stays_in_bounds():
+    b = gpd.GeoDataFrame(geometry=[box(512000, 5032000, 516000, 5036000)], crs=CRS)
+    hexg = create_hexagonal_grid(b, cell_size=300)
+    pts = gpd.GeoDataFrame(
+        {"no2": [40.0, 20.0]},
+        geometry=[Point(513000, 5033000), Point(515000, 5035000)], crs=CRS,
+    )
+    out = idw_interpolation(pts, hexg, "no2", power=2)
+    assert "idw_value" in out.columns
+    assert out["idw_value"].min() >= 20 - 1e-9
+    assert out["idw_value"].max() <= 40 + 1e-9
 
 
 # ---- interpolation (IDW) ----
