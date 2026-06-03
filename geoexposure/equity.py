@@ -40,6 +40,7 @@ def exposure_inequality_summary(grid_gdf, exposure_col, population_col,
     low = grid_gdf[c <= lo_thr]
 
     def _pop_weighted_mean(sub):
+        """Population-weighted mean exposure of a subset of cells."""
         p = sub[population_col].sum()
         if p > 0:
             return float((sub[exposure_col] * sub[population_col]).sum() / p)

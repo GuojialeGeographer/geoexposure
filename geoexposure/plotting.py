@@ -7,6 +7,7 @@ library still works without matplotlib installed; only this module needs it.
 
 
 def _require_matplotlib():
+    """Import matplotlib lazily, with a helpful error if it is missing."""
     try:
         import matplotlib.pyplot as plt
     except ImportError as exc:  # pragma: no cover - environment dependent
