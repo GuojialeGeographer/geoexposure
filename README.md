@@ -66,6 +66,22 @@ See [`examples/basic_workflow.py`](examples/basic_workflow.py) for the full chai
 **Terminology:** a grid cell carries a *concentration* (`idw_value`); only the
 population-aggregated scalar is called an *exposure*.
 
+## Data
+
+The `data/` folder ships three GeoJSON files in EPSG:32632, all using real
+Milan coordinates:
+
+| File | Contents | Key column |
+|---|---|---|
+| `boundary.geojson` | study-area polygon | – |
+| `stations.geojson` | NO₂ monitoring stations | `no2` |
+| `population_grid.geojson` | 1 km population cells | `population` |
+
+> **Note:** the NO₂ and population *values* in the bundled files are
+> illustrative samples. To run the analysis on real measurements, replace the
+> three files with your own exports — keep the same filenames, key columns and
+> CRS (EPSG:32632) and everything else works unchanged.
+
 ## Testing
 
 ```bash
