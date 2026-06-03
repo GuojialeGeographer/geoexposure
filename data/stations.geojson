@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "stations",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32632" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "Milano Senato", "no2": 48.0 }, "geometry": { "type": "Point", "coordinates": [ 514900.0, 5034800.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Marche", "no2": 52.0 }, "geometry": { "type": "Point", "coordinates": [ 513200.0, 5035600.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Verziere", "no2": 45.0 }, "geometry": { "type": "Point", "coordinates": [ 515100.0, 5033200.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Liguria", "no2": 50.0 }, "geometry": { "type": "Point", "coordinates": [ 511800.0, 5034000.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Citta Studi", "no2": 40.0 }, "geometry": { "type": "Point", "coordinates": [ 516400.0, 5035200.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Beccaria", "no2": 38.0 }, "geometry": { "type": "Point", "coordinates": [ 513000.0, 5031900.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano Pero", "no2": 35.0 }, "geometry": { "type": "Point", "coordinates": [ 517200.0, 5037000.0 ] } },
+{ "type": "Feature", "properties": { "name": "Milano SudOvest", "no2": 33.0 }, "geometry": { "type": "Point", "coordinates": [ 511000.0, 5031500.0 ] } }
+]
+}
