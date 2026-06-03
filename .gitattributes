@@ -1,0 +1,6 @@
+# Treat notebooks as documentation so GitHub's language stats reflect the
+# Python library (the deliverable), not the demo notebook.
+*.ipynb linguist-documentation
+
+# Treat bundled data as non-code in language stats.
+*.geojson linguist-data
